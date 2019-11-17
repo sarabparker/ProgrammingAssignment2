@@ -1,0 +1,40 @@
+---
+title: "ProgrammingAssignment2"
+author: "Sara"
+date: "11/17/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## make special matrix object that caches its inverse.
+
+makeCacheMatrix <- function(x = matrix()) {
+  m <- NULL
+  set <- function(y){
+    x <<- y
+    m <<- NULL
+  }
+  get <- function() x
+  setsolve <- function(solve) m <<- solve
+  getsolve <- function() m
+  list(set = set, get = get,
+       setsolve = setsolve,
+       getsolve = getsolve)
+}
+
+## compute the inverse of the special matrix.
+
+cacheSolve <- function(x, ...) {
+  m <- x$getsolve()
+  if(!is.null(m)){
+    message("getting cached data")
+    return(m)
+  }
+  data <- x$get()
+  m <- solve(data, ...)
+  x$setsolve(m)
+  m
+}
